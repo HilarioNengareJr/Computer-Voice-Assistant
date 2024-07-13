@@ -1,0 +1,1 @@
+Eon is a voice assistant that receives audible commands and execute them. Its a voice assistant.
