@@ -1,3 +1,6 @@
+
+
+
 class VoiceAssistant:
     """
     - Features of VA class-
@@ -12,11 +15,19 @@ class VoiceAssistant:
         self.speaker = speaker
         self.command_processor = command_processor
         
-    def listen(self):
+    def listen_and_respond(self):
         command = self.recognizer.recognize_speech()
-        self.command_processor.do_this(command)
-        
-    def respond(self, text):
-        self.speaker.speak(text)
+        if command:
+            print(f"Recognized command: {command}")
+            response = self.command_processor.execute_action(command)
+            if response:
+                self.speaker.speak(response)
+                print(response)
+            else:
+                self.speaker.speak("Sorry, I couldn't perform the action.")
+                print("Sorry, I couldn't perform the action.")
+        else:
+            self.speaker.speak("I didn't catch that. Could you please repeat?")
+            print("I didn't catch that. Could you please repeat?")
         
         
