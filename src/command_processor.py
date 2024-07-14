@@ -1,15 +1,6 @@
 class CommandProcessor:
-    """
-    -Features of Command Processor-
-
-    1. take command input in the form of text
-    2. execute the command 
-    """
-
-    def __init__(self, file_manager, music_player):
-
-        self.file_manager = file_manager
-        self.music_player = music_player
+    def __init__(self, cmd_executor):
+        self.cmd_executor = cmd_executor
 
     def parse_command(self, command):
         command = command.lower()
@@ -23,33 +14,55 @@ class CommandProcessor:
             action['type'] = 'open_application'
             action['parameters']['app_name'] = self.extract_app_name(command)
 
-        elif any(keyword in command for keyword in ["play music", "start music", "play song"]):
-            action['type'] = 'play_music'
-            action['parameters']['file_path'] = self.extract_music_path(command)
+        elif "shut down computer" in command:
+            action['type'] = 'shut_down'
 
-        elif any(keyword in command for keyword in ["stop music", "pause music"]):
-            action['type'] = 'stop_music'
-            
+        elif "restart computer" in command:
+            action['type'] = 'restart'
+
+        elif "find" in command and "webpage" in command:
+            action['type'] = 'find_webpage'
+            action['parameters']['query'] = self.extract_query(command)
+
         return action
-            
-            
+
     def do_this(self, command):
-
         action = self.parse_command(command)
+        
         if action['type'] == 'open_folder':
-            self.file_manager.open_folder(action['parameters']['path'])
+            self.cmd_executor.open_folder(action['parameters']['path'])
+            return "Opened the folder."
+
         elif action['type'] == 'open_application':
-            self.file_manager.open_application(action['parameters']['app_name'])
-        elif action['type'] == 'play_music':
-            self.music_player.play_music(action['parameters']['file_path'])
-        elif action['type'] == 'stop_music':
-            self.music_player.stop_music()
+            response = self.cmd_executor.open_application(action['parameters']['app_name'])
+            return response if response else "Failed to open application."
 
-    def extract__path(self, command):
-        return command.split("folder")[-1].strip()
-    
+        elif action['type'] == 'shut_down':
+            self.cmd_executor.shut_down()
+            return "Shutting down the system."
+
+        elif action['type'] == 'restart':
+            self.cmd_executor.restart()
+            return "Restarting the system."
+
+        elif action['type'] == 'find_webpage':
+            self.cmd_executor.find_webpage(action['parameters']['query'])
+            return "Opening the webpage."
+
+        else:
+            print(f"Unknown command: {command}")
+            return "Sorry, I couldn't perform the action sir."
+        
+    def extract_path(self, command):
+        if "folder" in command:
+            return command.split("folder")[-1].strip()
+        return ""
+
     def extract_app_name(self, command):
-        return command.split("open")[-1].strip()
+        for keyword in ["open", "launch", "start"]:
+            if keyword in command:
+                return command.split(keyword)[-1].strip()
+        return ""
 
-    def extract_music_path(self, command):
-        return command.split("music")[-1].strip()
+    def extract_query(self, command):
+        return command.split("find webpage")[-1].strip()

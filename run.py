@@ -2,32 +2,29 @@ import pyaudio
 import numpy as np
 import pvporcupine
 import struct
-from akey import access_key
-from command_processor import CommandProcessor
-from file_manager import FileManager, MusicPlayer
-from speech_recognizer import SpeechRecognizer
-from text_to_speech import TextToSpeech
-from voice_assistant import VoiceAssistant
-
+from src.akey import access_key
+from src.command_processor import CommandProcessor
+from src.command_execution import CommandExecution
+from src.speech_recognizer import SpeechRecognizer
+from src.text_to_speech import TextToSpeech
+from src.voice_assistant import VoiceAssistant
 
 def execute_assistant():
     recognizer = SpeechRecognizer()
-    file_manager = FileManager()
-    music_player = MusicPlayer()
+    cmd = CommandExecution()
     speaker = TextToSpeech()
-    command_processor = CommandProcessor(file_manager, music_player)
+    command_processor = CommandProcessor(cmd)
     assistant = VoiceAssistant(recognizer, speaker, command_processor)
 
     while True:
         assistant.listen_and_respond()
-
 
 def main():
     porcupine = None
     pa = None
     audio_stream = None
     temp = TextToSpeech()
-     
+
     try:
         porcupine = pvporcupine.create(access_key=access_key, keywords=["computer", "jarvis"])
         pa = pyaudio.PyAudio()
@@ -47,17 +44,15 @@ def main():
             keyword_index = porcupine.process(pcm)
 
             if keyword_index >= 0:
-               
-                
-                temp.speak("yes sir")
-                print("yes sir")
+                temp.speak("Yes, sir")
+                print("Yes, sir")
                 execute_assistant()
 
     except KeyboardInterrupt:
-        temp.speak("Exiting sir")
+        temp.speak("Exiting, sir")
         print("Exiting...")
     except Exception as e:
-        temp.speak("Something is wrong sir")
+        temp.speak("Something went wrong, sir")
         print(f"An error occurred: {e}")
     finally:
         if audio_stream is not None:
@@ -66,7 +61,6 @@ def main():
             pa.terminate()
         if porcupine is not None:
             porcupine.delete()
-
 
 if __name__ == "__main__":
     main()

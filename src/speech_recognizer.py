@@ -29,6 +29,3 @@ class SpeechRecognizer:
         sys.stderr = sys.__stderr__    
                 
         return None
-        
-    def is_command_legit(self, command):
-        pass
