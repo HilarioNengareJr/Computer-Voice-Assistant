@@ -26,7 +26,8 @@ def main():
     porcupine = None
     pa = None
     audio_stream = None
-
+    temp = TextToSpeech()
+     
     try:
         porcupine = pvporcupine.create(access_key=access_key, keywords=["computer", "jarvis"])
         pa = pyaudio.PyAudio()
@@ -46,15 +47,17 @@ def main():
             keyword_index = porcupine.process(pcm)
 
             if keyword_index >= 0:
-                temp = TextToSpeech()
+               
                 
                 temp.speak("yes sir")
                 print("yes sir")
                 execute_assistant()
 
     except KeyboardInterrupt:
+        temp.speak("Exiting sir")
         print("Exiting...")
     except Exception as e:
+        temp.speak("Something is wrong sir")
         print(f"An error occurred: {e}")
     finally:
         if audio_stream is not None:
