@@ -9,21 +9,15 @@ from src.speech_recognizer import SpeechRecognizer
 from src.text_to_speech import TextToSpeech
 from src.voice_assistant import VoiceAssistant
 
-def execute_assistant():
-    recognizer = SpeechRecognizer()
-    cmd = CommandExecution()
-    speaker = TextToSpeech()
-    command_processor = CommandProcessor(cmd)
-    assistant = VoiceAssistant(recognizer, speaker, command_processor)
-
-    while True:
-        assistant.listen_and_respond()
+def execute_assistant(assistant):
+    assistant.listen_and_respond()
 
 def main():
     porcupine = None
     pa = None
     audio_stream = None
     temp = TextToSpeech()
+    assistant = None
 
     try:
         porcupine = pvporcupine.create(access_key=access_key, keywords=["computer", "jarvis"])
@@ -46,7 +40,18 @@ def main():
             if keyword_index >= 0:
                 temp.speak("Yes, sir")
                 print("Yes, sir")
-                execute_assistant()
+                
+                if assistant is None:
+                    recognizer = SpeechRecognizer()
+                    cmd = CommandExecution()
+                    speaker = TextToSpeech()
+                    command_processor = CommandProcessor(cmd)
+                    assistant = VoiceAssistant(recognizer, speaker, command_processor)
+
+                execute_assistant(assistant)
+
+              
+                assistant = None
 
     except KeyboardInterrupt:
         temp.speak("Exiting, sir")
