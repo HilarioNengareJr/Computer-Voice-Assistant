@@ -30,6 +30,7 @@ class CommandExecution:
         for path in search_paths:
             try:
                 for filename in os.listdir(path):
+                    print(f"Checking file: {filename}")
                     full_path = os.path.join(path, filename)
                     if os.path.isfile(full_path) and os.access(full_path, os.X_OK):
                         if all(part in filename.lower() for part in app_name_parts):
@@ -50,9 +51,7 @@ class CommandExecution:
             result = subprocess.run(['xdg-open', path], check=True)
             if result.returncode == 0:
                 print("Folder opened successfully.")
-            else:
-                print(f"Failed to open folder. Return code: {result.returncode}")
-                self.__tts.speak("There was an error opening the folder, sir.")
+            
         except Exception as e:
             print(f"Error opening folder: {e}")
             self.__tts.speak("There was an error opening the folder, sir.")

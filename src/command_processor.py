@@ -16,20 +16,21 @@ class CommandProcessor:
         command = command.lower()
         action = {'type': None, 'parameters': {}}
 
-        if any(keyword in command for keyword in ["open folder", "show folder", "browse folder"]):
+        print(f"Parsing command: {command}")
+
+        if "open folder" in command:
             action['type'] = 'open_folder'
             action['parameters']['path'] = self.extract_path(command)
 
         elif any(keyword in command for keyword in ["launch", "start"]):
             action['type'] = 'open_application'
             action['parameters']['app_name'] = self.extract_app_name(command)
-
-        # Add closing commands
+            
         elif any(keyword in command for keyword in ["close folder", "hide folder"]):
             action['type'] = 'close_folder'
             action['parameters']['path'] = self.extract_path(command)
 
-        elif any(keyword in command for keyword in ["close", "exit"]):
+        elif any(keyword in command for keyword in ["close application", "exit application"]):
             action['type'] = 'close_application'
             action['parameters']['app_name'] = self.extract_app_name(command)
 
@@ -39,41 +40,51 @@ class CommandProcessor:
         elif "restart computer" in command:
             action['type'] = 'restart'
 
-        elif "find" in command and "webpage" in command:
+        elif "find webpage" in command:
             action['type'] = 'find_webpage'
             action['parameters']['query'] = self.extract_query(command)
 
+        print(f"Action parsed: {action}")
         return action
 
     def do_this(self, command):
+        print(f"Executing command: {command}")
         action = self.parse_command(command)
+        print(f"Action to be performed: {action}")
 
         if action['type'] == 'open_folder':
             response = self.cmd_executor.open_folder(action['parameters']['path'])
+            print(f"Response from open_folder: {response}")
             return response if response else "Failed to open folder."
 
         elif action['type'] == 'open_application':
             response = self.cmd_executor.open_application(action['parameters']['app_name'])
+            print(f"Response from open_application: {response}")
             return response if response else "Failed to open application."
 
         elif action['type'] == 'close_folder':
             response = self.cmd_executor.close_folder(action['parameters']['path'])
+            print(f"Response from close_folder: {response}")
             return response if response else "Failed to close folder."
 
         elif action['type'] == 'close_application':
             response = self.cmd_executor.close_application(action['parameters']['app_name'])
+            print(f"Response from close_application: {response}")
             return response if response else "Failed to close application."
 
         elif action['type'] == 'shut_down':
             self.cmd_executor.shut_down()
+            print("Shutting down the system.")
             return "Shutting down the system."
 
         elif action['type'] == 'restart':
             self.cmd_executor.restart()
+            print("Restarting the system.")
             return "Restarting the system."
 
         elif action['type'] == 'find_webpage':
             self.cmd_executor.find_webpage(action['parameters']['query'])
+            print("Opening the webpage.")
             return "Opening the webpage."
 
         else:
@@ -81,21 +92,42 @@ class CommandProcessor:
             return "Sorry, I couldn't perform the action, sir."
 
     def extract_path(self, command):
-        for keyword, path in self.path_mapping.items():
-            if keyword in command:
-                folder_name = command.split(keyword)[-1].strip()
-                full_path = os.path.join(path, folder_name)
-                return full_path if os.path.exists(full_path) else None
-        return None
+        print(f"Extracting path from command: {command}")
+        words = command.split()
+        
+        if "open folder" in command:
+            # Extract folder name
+            folder_name = " ".join(words[2:]).strip()  # Extract everything after "open folder"
+            print(f"Extracted folder name: {folder_name}")
 
+            # Check each path in path_mapping for the folder
+            for keyword, base_path in self.path_mapping.items():
+                # Construct the full path
+                full_path = os.path.join(base_path, folder_name)
+
+                if os.path.exists(full_path):
+                    print(f"Found folder: {full_path}")
+                    return full_path
+
+            print("Folder does not exist in any mapped paths.")
+            return None
+        
+        print("No valid command for path extraction.")
+        return None
+    
     def extract_app_name(self, command):
-        for keyword in ["launch", "start", "close", "exit"]:
+        for keyword in ["launch app", "exit app"]:
             if keyword in command:
-                return command.split(keyword)[-1].strip()
+                app_name = command.split(keyword)[-1].strip()
+                print(f"Extracted app name: {app_name}")
+                return app_name
+        print("No app name found.")
         return ""
 
     def extract_query(self, command):
         if "find webpage" in command:
-            return command.split("find webpage")[-1].strip()
+            query = command.split("find webpage")[-1].strip()
+            print(f"Extracted query: {query}")
+            return query
+        print("No query found.")
         return ""
-

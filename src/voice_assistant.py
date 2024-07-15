@@ -1,4 +1,3 @@
-
 class VoiceAssistant:
     """
     - Features of VA class-
@@ -29,5 +28,3 @@ class VoiceAssistant:
         else:
             self.speaker.speak("I didn't catch that. Could you please repeat sir?")
             print("I didn't catch that. Could you please repeat?")
-        
-        
