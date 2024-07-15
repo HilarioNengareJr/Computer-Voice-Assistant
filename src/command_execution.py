@@ -1,8 +1,8 @@
-import os
-import subprocess
+import os, subprocess
+from .command_processor import CommandProcessor
 from .text_to_speech import TextToSpeech
 
-class CommandExecution:
+class CommandExecution(CommandProcessor):
     """
     Tasks:
     1. Open/close a folder
@@ -13,6 +13,7 @@ class CommandExecution:
     """
 
     def __init__(self):
+        super().__init__(self)  
         self.__tts = TextToSpeech()
 
     def open_folder(self, path):
@@ -40,21 +41,21 @@ class CommandExecution:
     def launch_application(self, app_path):
         if app_path:
             try:
-                self.__tts.speak(f"Launching application sir.")
+                self.__tts.speak("Launching application sir.")
                 subprocess.run([app_path], check=True)
-                return f"Application launched successfully."
+                return "Application launched successfully."
             except Exception as e:
-                self.__tts.speak(f"Failed to open application sir.")
+                self.__tts.speak("Failed to open application sir.")
                 print(f"Error opening application: {e}")
                 return None
         else:
-            self.__tts.speak(f"Application is not found sir.")
-            print(f"Error: Application not found.")
+            self.__tts.speak("Application is not found sir.")
+            print("Error: Application not found.")
             return None
 
     def close_application(self, app_path):
         try:
-            self.__tts.speak(f"Closing application sir.")
+            self.__tts.speak("Closing application sir.")
             subprocess.run(['pkill', '-f', app_path], check=False)
         except Exception as e:
             print(f"Error closing application: {e}")
@@ -86,7 +87,7 @@ class CommandExecution:
 
     def close_webpage(self, query):
         try:
-            self.__tts.speak(f"Closing webpage sir.")
+            self.__tts.speak("Closing webpage sir.")
             subprocess.run(['pkill', '-f', query], check=False)
         except Exception as e:
             print(f"Error closing webpage: {e}")
