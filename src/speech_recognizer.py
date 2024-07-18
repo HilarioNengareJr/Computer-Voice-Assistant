@@ -2,10 +2,10 @@ import os
 import sys
 import speech_recognition as speech
 
+
 class SpeechRecognizer:
     
     def recognize_speech(self):
-        
         recognizer = speech.Recognizer()
         
         # Suppress ALSA errors
@@ -13,8 +13,9 @@ class SpeechRecognizer:
         
         with speech.Microphone() as source:
             try:
-                audio = recognizer.listen(source)
                 print("\nListening....\n")
+                audio = recognizer.listen(source)
+                print("Processing....")
                 return recognizer.recognize_google(audio)
             
             except speech.UnknownValueError:
