@@ -8,10 +8,6 @@ class SpeechRecognizer:
     def recognize_speech(self):
         recognizer = speech.Recognizer()
         
-        # Suppress ALSA errors
-        sys.stderr = open(os.devnull, 'w')
-        sys.stderr = sys.__stderr__
-        
         with speech.Microphone() as source:
             try:
                 print("\nListening....\n")
