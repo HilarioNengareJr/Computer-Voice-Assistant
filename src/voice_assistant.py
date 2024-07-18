@@ -16,9 +16,14 @@ class VoiceAssistant:
         command = self.recognizer.recognize_speech()
         
         if command:
-            self.speaker.speak(f"Initializing command: {command}")
-            print(f"Recognized command: {command}")
-            response = self.command_processor.do_this(command)
+            if all(keyword not in command.lower() for keyword in ["thank you", "never mind", "not now", "close self"]):
+                self.speaker.speak(f"Processing command: {command}")
+                print(f"Recognized command: {command}")
+                response = self.command_processor.do_this(command)
+            else:
+                self.speaker.speak("Anytime sir.")
+                return
+            
             if response:
                 self.speaker.speak(response)
                 print(response)

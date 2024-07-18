@@ -10,6 +10,7 @@ class SpeechRecognizer:
         
         # Suppress ALSA errors
         sys.stderr = open(os.devnull, 'w')
+        sys.stderr = sys.__stderr__
         
         with speech.Microphone() as source:
             try:
@@ -26,7 +27,6 @@ class SpeechRecognizer:
                 print(f"Could not request results; {e}")
                 return None
                 
-        # Re-enable stderr
-        sys.stderr = sys.__stderr__    
+        
                 
         return None

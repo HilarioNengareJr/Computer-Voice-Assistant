@@ -34,7 +34,10 @@ class CommandProcessor:
         if "open folder" in command:
             action['type'] = 'open_folder'
             action['parameters']['path'] = self.extract_path(command)
-
+        
+        elif any(keyword in command for keyword in ["thank you", "never mind", "not now", "close self"]):
+            action['type'] = 'close_jarvis'
+            
         elif any(keyword in command for keyword in ["launch application", "start application"]):
             action['type'] = 'launch_application'
             action['parameters']['app_name'] = self.extract_app_name(command)
@@ -65,6 +68,7 @@ class CommandProcessor:
         action = self.parse_command(command)
         print(f"Action to be performed: {action}")
 
+        
         if action['type'] == 'open_folder':
             response = self.cmd_executor.open_folder(
                 action['parameters']['path'])
@@ -76,18 +80,6 @@ class CommandProcessor:
                 action['parameters']['app_name'])
             print(f"Response from launch_application: {response}")
             return response if response else "Failed to open application."
-
-        elif action['type'] == 'close_folder':
-            response = self.cmd_executor.close_folder(
-                action['parameters']['path'])
-            print(f"Response from close_folder: {response}")
-            return response if response else "Failed to close folder."
-
-        elif action['type'] == 'close_application':
-            response = self.cmd_executor.close_application(
-                action['parameters']['app_name'])
-            print(f"Response from close_application: {response}")
-            return response if response else "Failed to close application."
 
         elif action['type'] == 'shut_down':
             self.cmd_executor.shut_down()
@@ -103,6 +95,9 @@ class CommandProcessor:
             self.cmd_executor.find_webpage(action['parameters']['query'])
             print("Opening the webpage.")
             return "Opening the webpage."
+        
+        elif action['type'] == 'close_jarvis':
+            return "Anytime sir."
 
         else:
             print(f"Unknown command: {command}")
@@ -137,8 +132,7 @@ class CommandProcessor:
 
         if any(keyword in command for keyword in ["launch application", "start application", "close application", "exit application"]):
 
-            keywords = ["launch application", "start application",
-                        "close application", "exit application"]
+            keywords = ["launch application", "start application"]
             for keyword in keywords:
                 if keyword in command:
                     app_words = command.split(keyword)[1].strip().split()

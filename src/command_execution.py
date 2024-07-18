@@ -1,6 +1,8 @@
-import os, subprocess
+import os
+import subprocess
 from .command_processor import CommandProcessor
 from .text_to_speech import TextToSpeech
+
 
 class CommandExecution(CommandProcessor):
     """
@@ -13,7 +15,7 @@ class CommandExecution(CommandProcessor):
     """
 
     def __init__(self):
-        super().__init__(self)  
+        super().__init__(self)
         self.__tts = TextToSpeech()
 
     def open_folder(self, path):
@@ -31,13 +33,6 @@ class CommandExecution(CommandProcessor):
             self.__tts.speak("There was an error opening the folder, sir.")
             return "Failed to open folder."
 
-    def close_folder(self, path):
-        try:
-            self.__tts.speak("Closing folder sir.")
-            subprocess.run(['pkill', '-f', path], check=False)
-        except Exception as e:
-            print(f"Error closing folder: {e}")
-
     def launch_application(self, app_path):
         if app_path:
             try:
@@ -52,21 +47,6 @@ class CommandExecution(CommandProcessor):
             self.__tts.speak("Application is not found sir.")
             print("Error: Application not found.")
             return None
-
-    def close_application(self, app_path):
-        try:
-            self.__tts.speak("Closing application sir.")
-            subprocess.run(['pkill', '-f', app_path], check=False)
-        except Exception as e:
-            print(f"Error closing application: {e}")
-
-    def shut_down(self):
-        try:
-            self.__tts.speak("Shutting down the system sir.")
-            subprocess.run(["shutdown", "now"], check=True)
-            return "System shutting down."
-        except Exception as e:
-            return f"Error shutting down the computer: {e}"
 
     def restart(self):
         try:
@@ -85,9 +65,3 @@ class CommandExecution(CommandProcessor):
         except Exception as e:
             return f"Error opening webpage {query}: {e}"
 
-    def close_webpage(self, query):
-        try:
-            self.__tts.speak("Closing webpage sir.")
-            subprocess.run(['pkill', '-f', query], check=False)
-        except Exception as e:
-            print(f"Error closing webpage: {e}")
