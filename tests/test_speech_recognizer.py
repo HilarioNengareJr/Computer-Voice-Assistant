@@ -7,7 +7,8 @@ class TestSpeechRecognizer(unittest.TestCase):
 
     def test_recognize_speech(self):
         # Test the recognize_speech method
-        pass
+        recognized_text = self.recognizer.recognize_speech()
+        # Add assertions here to check if the speech was recognized correctly
 
 if __name__ == '__main__':
     unittest.main()

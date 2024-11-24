@@ -7,7 +7,8 @@ class TestTextToSpeech(unittest.TestCase):
 
     def test_speak(self):
         # Test the speak method
-        pass
+        self.speaker.speak("Hello, world!")
+        # Add assertions here to check if the text was spoken correctly
 
 if __name__ == '__main__':
     unittest.main()

@@ -9,23 +9,28 @@ class TestCommandProcessor(unittest.TestCase):
 
     def test_parse_command(self):
         # Test the parse_command method
-        pass
+        parsed_command = self.cmd_processor.parse_command("open folder /tmp")
+        # Add assertions here to check if the command was parsed correctly
 
     def test_do_this(self):
         # Test the do_this method
-        pass
+        response = self.cmd_processor.do_this("open folder /tmp")
+        # Add assertions here to check if the command was processed correctly
 
     def test_extract_path(self):
         # Test the extract_path method
-        pass
+        path = self.cmd_processor.extract_path("open folder /tmp")
+        # Add assertions here to check if the path was extracted correctly
 
     def test_extract_app_name(self):
         # Test the extract_app_name method
-        pass
+        app_name = self.cmd_processor.extract_app_name("open app gedit")
+        # Add assertions here to check if the app name was extracted correctly
 
     def test_extract_query(self):
         # Test the extract_query method
-        pass
+        query = self.cmd_processor.extract_query("find webpage OpenAI")
+        # Add assertions here to check if the query was extracted correctly
 
 if __name__ == '__main__':
     unittest.main()
