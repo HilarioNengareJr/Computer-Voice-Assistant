@@ -33,6 +33,11 @@ class VoiceAssistant:
             else:
                 self.speaker.speak("Command processed successfully.")
                 print("Command processed successfully.")
+
+            if command.lower() == "jarvis exit":
+                self.speaker.speak("Exiting, sir.")
+                print("Exiting...")
+                sys.exit(0)
         else:
             self.speaker.speak("I didn't catch that. Could you please repeat sir?")
             print("I didn't catch that. Could you please repeat?")
