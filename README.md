@@ -1,6 +1,34 @@
-Jarvis is a voice assistant that receives audible commands and execute them.
+Jarvis is a voice assistant that receives audible commands and execute them. 🎤💬
 
-## Screenshots of Application
+## HOW TO Guide 🚀
+
+### Step 1: Install Dependencies 📦
+First, make sure you have all the dependencies installed. You can install them using pip:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Step 2: Run the Application 🏃‍♂️
+Navigate to the project directory and run the application:
+
+```bash
+python3 run.py
+```
+
+### Step 3: Use Jarvis 🗣️
+Once the application is running, Jarvis will listen for your commands. You can say things like:
+
+- "Open folder foo"
+- "Open app bar"
+- "Find webpage baz"
+- "Restart system"
+- "Shut down system"
+
+### Step 4: Enjoy! 😄
+That's it! You're now using Jarvis, your friendly voice assistant. Enjoy the magic of voice commands! 🎉
+
+## Screenshots of Application 📸
 
 ### Initialization
 
