@@ -1,4 +1,4 @@
-Jarvis is a voice assistant that receives audible commands and execute them. 🎤💬
+Jarvis is a voice assistant that receives audible commands and execute them, he also responds. 🎤💬
 
 ## HOW TO Guide 🚀
 
