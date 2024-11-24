@@ -1,3 +1,5 @@
+import sys
+
 class VoiceAssistant:
     """
     - Features of VA class-
