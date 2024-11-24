@@ -1,0 +1,83 @@
+# This file makes the tests directory a package
+import unittest
+from src.command_execution import CommandExecution
+
+class TestCommandExecution(unittest.TestCase):
+    def setUp(self):
+        self.cmd_executor = CommandExecution()
+
+    def test_open_folder(self):
+        # Test the open_folder method
+        pass
+
+    def test_launch_application(self):
+        # Test the launch_application method
+        pass
+
+    def test_restart(self):
+        # Test the restart method
+        pass
+
+    def test_find_webpage(self):
+        # Test the find_webpage method
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
+import unittest
+from src.command_processor import CommandProcessor
+from src.command_execution import CommandExecution
+
+class TestCommandProcessor(unittest.TestCase):
+    def setUp(self):
+        self.cmd_executor = CommandExecution()
+        self.cmd_processor = CommandProcessor(self.cmd_executor)
+
+    def test_parse_command(self):
+        # Test the parse_command method
+        pass
+
+    def test_do_this(self):
+        # Test the do_this method
+        pass
+
+    def test_extract_path(self):
+        # Test the extract_path method
+        pass
+
+    def test_extract_app_name(self):
+        # Test the extract_app_name method
+        pass
+
+    def test_extract_query(self):
+        # Test the extract_query method
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
+import unittest
+from src.speech_recognizer import SpeechRecognizer
+
+class TestSpeechRecognizer(unittest.TestCase):
+    def setUp(self):
+        self.recognizer = SpeechRecognizer()
+
+    def test_recognize_speech(self):
+        # Test the recognize_speech method
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
+import unittest
+from src.text_to_speech import TextToSpeech
+
+class TestTextToSpeech(unittest.TestCase):
+    def setUp(self):
+        self.speaker = TextToSpeech()
+
+    def test_speak(self):
+        # Test the speak method
+        pass
+
+if __name__ == '__main__':
+    unittest.main()
