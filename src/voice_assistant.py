@@ -27,9 +27,12 @@ class VoiceAssistant:
             if response:
                 self.speaker.speak(response)
                 print(response)
-            else:
+            elif response is None:
                 self.speaker.speak("Sorry, I couldn't perform the action sir.")
                 print("Sorry, I couldn't perform the action sir.")
+            else:
+                self.speaker.speak("Command processed successfully.")
+                print("Command processed successfully.")
         else:
             self.speaker.speak("I didn't catch that. Could you please repeat sir?")
             print("I didn't catch that. Could you please repeat?")
